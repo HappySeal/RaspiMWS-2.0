@@ -53,11 +53,24 @@ color:#EEEEEE;
     <div align="left" style="padding:0px 0px 10px 0px"><span class="Time" id="clock" >&nbsp;</span> 
     <span>
 	<br>
-	{{temp}}
+	{{temp}}°C
 	</span>
     <span>
-					{{hum}}
+					{{hum}} %
 	</span>
     </div>
 	</body>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js" ></script>
+<script>
+jQuery( document ).ready(function() {
+    timezone = jstz.determine();
+    jQuery("#timezone").text(timezone.name());     
+});
+  jQuery("#range_select input[type=radio]").click(function(){
+    timezone = jstz.determine();
+    jQuery(".timezone").val(timezone.name()); 
+    jQuery("#range_select").submit();
+  });
+</script> 
 </html>
