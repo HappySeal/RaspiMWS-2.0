@@ -6,7 +6,6 @@
 		<meta charset = "utf-8" />
 		<title>RasPi MWS</title>
 		<meta http-equiv="refresh" content="10">
-		<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 		<link rel="icon" type="/static/image/png" href="/static/images/favicon.ico">
             <script type="text/javascript">
 <!--
@@ -36,27 +35,116 @@ function updateClock ( )
 // -->
 </script>
 <style type="text/css">
-.Time {
-font-family:Arial;
-margin:0px 10px 0px 50px;
-font-size:24px;
-color:#EEEEEE;
+.MainMenu{
+	background-color:none;
+	color:#E9E9E9;
+	font-family:Arial;
+	padding:0px 40px 10px 40px;
+	font-style: inherit;
+	font-size:36px;
+	margin-left:137px;
+	margin-right:137px;
 }
+
+.Header
+{
+	font-family:Arial;
+	text-align:center;
+	padding:10px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+	font-size:36px;
+	color:#EEEEEE;
+}
+#clock
+{
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:right;
+	padding:10px 0px 0px 0px;
+	margin:0px;
+	font-size:48px;
+	color:#EEEEEE;
+}
+
+.divHeader
+{
+	
+	padding:1px;
+	width:100%;
+	height:64px;
+	background-image:url(static/images/logo.png);
+	background-position:top left;
+	background-repeat:no-repeat;
+	background-size:64px 64px;
+	background-color:#0099CC;
+	
+}
+body
+{
+background-image:url(static/images/background.jpeg);
+background-repeat:no-repeat;
+background-color:#FFFFFF;
+padding:0px 0px 0px 0px;
+margin:0px 0px 0px 0px;
+height:2160px;
+}
+.Temperature
+{
+font-family:Arial;
+font-size:42px;
+color:#FFFFFF;
+}
+.Humidity
+{
+font-family:Arial;
+font-size:42px;
+color:#FFFFFF;
+}
+#up:before
+{
+	display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+    content: "";
+    background: url("static/images/up.png") no-repeat 0 0;
+    background-size: 100%;;
+}
+#down:before
+{
+	display: inline-block;
+    width: 32px;
+    height: 32px;
+    content: "";
+    background: url("static/images/down.png") no-repeat 0 0;
+    background-size: 100%;
+}
+#stable:before
+{
+	display: inline-block;
+    width: 32px;
+    height: 32px;
+    content: "";
+    background: url("static/images/stable.png") no-repeat 0 0;
+    background-size: 100%;;
+}
+
             </style>
             
 </head>
-	<body onLoad="updateClock(); setInterval('updateClock()', 1000 )"; style="background-image:url(static/images/background.jpeg)";>
-   		<div class="divHeader"; style="background-image:url(static/images/logo.png); background-attachment:scroll";>
+	<body onLoad="updateClock(); setInterval('updateClock()', 1000 )"; style="background-image:url(static/images/background.jpeg)">
+    <div class="divHeader"; style="background-image:url(static/images/logo.png); background-attachment:scroll">
 	  		<h1 class="Header" >Raspberry Pi Hava İstasyonu</h1>
-    	</div>
+            </div>
         	
     	<h1 align="center" class="MainMenu">Anlık Değerler</h1>
-    	<div align="left" style="padding:0px 0px 10px 0px"><span class="Time" id="clock" >&nbsp;</span> 
-    		<span>
-				<br>
+    	<div style="padding:0px 0px 10px 40px; margin:0px 0px 0px 40px">
+        	<span id="clock" >&nbsp;<br><br></span> 
+    		<span class="Temperature"; id={{idTemp}}>
 					{{temp}}°C
+                    <br>
+                    <br>
 			</span>
-    		<span>
+    		<span class="Humidity"; id={{idHum}}>
 					{{hum}} %
 			</span>
     	</div>
