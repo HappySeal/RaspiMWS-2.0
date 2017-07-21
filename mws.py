@@ -29,6 +29,6 @@ def mws():
         TempId = "stable"
     if(oldHum == Hum):
         HumId = "stable"
-    return render_template('mws.html', temp=Temp,hum=Hum,idHum=HumId,idTemp=TempId)
+    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],idHum=HumId,idTemp=TempId)
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
