@@ -27,7 +27,7 @@ def exportListing():
         cursor.execute("SELECT * FROM air")
         entryAll = cursor.fetchall()
         if entryAll < 5:
-            print("Lütfen geçmiþ 5 saate ait bilgileri manuel olarak giriniz..")
+            print("Lutfen gecmis 5 saate ait bilgileri manuel olarak giriniz..")
             break
         con.commit()
         graphDate.append((entryAll[i])[0])
