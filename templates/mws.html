@@ -7,7 +7,11 @@
 		<title>RasPi MWS</title>
 		<meta http-equiv="refresh" content="10">
 		<link rel="icon" type="/static/image/png" href="/static/images/favicon.ico">
-            <script type="text/javascript">
+		<script type="text/javascript" src="static/javascript/graph.js"></script>
+		<script type="text/javascript" src="https://www.amcharts.com/lib/3/gauge.js"></script>
+		<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+		<script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script type="text/javascript">
 <!--
 function updateClock ( )
 {
@@ -34,7 +38,258 @@ function updateClock ( )
 
 // -->
 </script>
+<script type="text/javascript">
+			var gaugeChartTemp = AmCharts.makeChart("gaugeTemp",
+				{
+					"type": "gauge",
+					"arrows": [
+						{
+							"id": "GaugeArrow-1",
+							"color":"#EEEEEE"
+						}
+					],
+					"axes": [
+						{
+							"bottomText": "0°C",
+							"bottomTextFontSize":20,
+							"axisColor":"#EEEEEE",
+							"bottomTextYOffset": -20,
+							"endValue": 95,
+							"id": "GaugeAxis-1",
+							"startValue": -25,
+							"valueInterval": 10,
+							"bands": [
+								{
+									"color": "#3297AC",
+									"endValue": -5,
+									"id": "GaugeBand-1",
+									"startValue": -25
+								},
+								{
+									"color": "#00CC00",
+									"endValue": 25,
+									"id": "GaugeBand-2",
+									"startValue": -5
+								},
+								{
+									"color": "#ffac29",
+									"endValue": 40,
+									"id": "GaugeBand-3",
+									"startValue": 25
+								},
+								{
+									"color": "#ea3838",
+									"endValue": 90,
+									"id": "GaugeBand-4",
+									"innerRadius": "95%",
+									"startValue": 40
+								},
+								{
+									"color":"#c10000",
+									"endValue": 95,
+									"id": "GaugeBand-5",
+									"innerRadius": "95%",
+									"startValue": 90
+								}
+							]
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Anlık Sıcaklık(°C)"
+						}
+					]
+				}
+			);
+			setInterval( randomValue, 500 );
+			function randomValue() {
+				var value = "{{temp}}";
+				if ( gaugeChartTemp ) {
+					if ( gaugeChartTemp.arrows ) {
+						if ( gaugeChartTemp.arrows[ 0 ] ) {
+							if ( gaugeChartTemp.arrows[ 0 ].setValue ) {
+								gaugeChartTemp.arrows[ 0 ].setValue(value);
+								gaugeChartTemp.axes[ 0 ].setBottomText( value + "°C " );
+							}
+						}
+					}
+				}
+			}
+</script>
+<script type = "text/javascript">
+var gaugeChartPress = AmCharts.makeChart("gaugePress",
+				{
+					"type": "gauge",
+					"arrows": [
+						{
+							"id": "GaugeArrow-1",
+							"color":"#EEEEEE"
+						}
+					],
+					"axes": [
+						{
+							"bottomText": "0 hPa",
+							"bottomTextFontSize":20,
+							"axisColor":"#EEEEEE",
+							"bottomTextYOffset": -20,
+							"endValue": 1056,
+							"id": "GaugeAxis-1",
+							"startValue": 942,
+							"valueInterval": 10,
+							"bands": [
+								{
+									"color": "#b87bab",
+									"endValue": 955,
+									"id": "GaugeBand-1",
+									"startValue": 942
+								},
+								{
+									"color": "#c667e7",
+									"endValue": 965,
+									"id": "GaugeBand-2",
+									"startValue": 955
+								},
+								{
+									"color": "#8c67e7",
+									"endValue": 982,
+									"id": "GaugeBand-3",
+									"startValue": 965
+								},
+								{
+									"color": "#ace6f6",
+									"endValue": 999,
+									"id": "GaugeBand-4",
+									"startValue": 982
+								},
+								{
+									"color":"#88db81",
+									"endValue": 1016,
+									"id": "GaugeBand-5",
+									"startValue": 999
+								},
+								{
+									"color": "#ace6f6",
+									"endValue": 1031,
+									"id": "GaugeBand-4",
+									"startValue": 1016
+								},
+								{
+									"color": "#ace6f6",
+									"endValue": 1049,
+									"id": "GaugeBand-4",
+									"startValue": 1031
+								},
+								{
+									"color": "#ace6f6",
+									"endValue": 1056,
+									"id": "GaugeBand-4",
+									"startValue": 1049
+								}
+							]
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Anlık Basınç(hPa)"
+						}
+					]
+				}
+			);
+			setInterval( randomValue, 500 );
+			function randomValue() {
+				var value = "{{press}}";
+				if ( gaugeChartPress ) {
+					if ( gaugeChartPress.arrows ) {
+						if ( gaugeChartPress.arrows[ 0 ] ) {
+							if ( gaugeChartPress.arrows[ 0 ].setValue ) {
+								gaugeChartPress.arrows[ 0 ].setValue(value);
+								gaugeChartPress.axes[ 0 ].setBottomText( value + " hPa " );
+							}
+						}
+					}
+				}
+			}
+</script>
+<script type="text/javascript">
+			var gaugeChartHum = AmCharts.makeChart("gaugeHum",
+				{
+					"type": "gauge",
+					"arrows": [
+						{
+							"id": "GaugeArrow-1",
+							"color":"#EEEEEE"
+						}
+					],
+					"axes": [
+						{
+							"bottomText": "0°C",
+							"bottomTextFontSize":20,
+							"axisColor":"#EEEEEE",
+							"bottomTextYOffset": -20,
+							"endValue": 100,
+							"id": "GaugeAxis-1",
+							"startValue": 0,
+							"valueInterval": 10,
+							"bands": [
+								{
+									"color": "#ea3838",
+									"endValue": 35,
+									"id": "GaugeBand-3",
+									"startValue": 0
+								},
+								{
+									"color": "#1fe500",
+									"endValue": 75,
+									"id": "GaugeBand-4",
+									"innerRadius": "95%",
+									"startValue": 35
+								},
+								{
+									"color":"#3297AC",
+									"endValue": 100,
+									"id": "GaugeBand-5",
+									"innerRadius": "95%",
+									"startValue": 75
+								}
+							]
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Anlık Nem(%)"
+						}
+					]
+				}
+			);
+			setInterval( randomValue, 500 );
+			function randomValue() {
+				var value = "{{hum}}";
+				if ( gaugeChartHum ) {
+					if ( gaugeChartHum.arrows ) {
+						if ( gaugeChartHum.arrows[ 0 ] ) {
+							if ( gaugeChartHum.arrows[ 0 ].setValue ) {
+								gaugeChartHum.arrows[ 0 ].setValue(value);
+								gaugeChartHum.axes[ 0 ].setBottomText( value + "%" );
+							}
+						}
+					}
+				}
+			}
+		</script>
 <style type="text/css">
+
 .MainMenu{
 	background-color:none;
 	color:#E9E9E9;
@@ -59,9 +314,9 @@ function updateClock ( )
 {
 	font-family:Arial, Helvetica, sans-serif;
 	text-align:right;
+	font-size:36px;
 	padding:10px 0px 0px 0px;
 	margin:0px;
-	font-size:48px;
 	color:#EEEEEE;
 }
 
@@ -128,8 +383,208 @@ color:#FFFFFF;
     background-size: 100%;;
 }
 
-            </style>
-            
+</style>
+<script type="text/javascript">
+			AmCharts.makeChart("chartTemp",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"colors": [
+						"#00087c"
+					],
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": " Saat [[category]]'deki sıcaklık :[[value]] *C",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "Sıcaklık",
+							"valueField": "Sıcaklık"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"id": "ValueAxis-1",
+							"title": "Derece(*C)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Son 5 saatin sıcaklık değerleri"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "{{gunTemp[0]}}",
+							"Sıcaklık": {{sicaklik[0]}}
+						},
+						{
+							"category": "{{gunTemp[1]}}",
+							"Sıcaklık": {{sicaklik[1]}}
+						},
+						{
+							"category": "{{gunTemp[2]}}",
+							"Sıcaklık": {{sicaklik[2]}}
+						},
+						{
+							"category": "{{gunTemp[3]}}",
+							"Sıcaklık": {{sicaklik[3]}}
+						},
+						{
+							"category": "{{gunTemp[4]}}",
+							"Sıcaklık": {{sicaklik[4]}}
+						}
+					]
+				}
+			);
+		</script>
+<script type="text/javascript">
+			AmCharts.makeChart("chartPress",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"colors": [
+						"#7c0000"
+					],
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": "Saat [[category]]'deki basınç :[[value]] hPa",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "Basınç",
+							"valueField": "Basınc"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"id": "ValueAxis-1",
+							"title": "hektoPascal(hPa)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Son 5 saatin basınç değerleri"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "{{gunPress[0]}}",
+							"Basınc": {{basinc[0]}}
+						},
+						{
+							"category": "{{gunPress[1]}}",
+							"Basınc": {{basinc[1]}}
+						},
+						{
+							"category": "{{gunPress[2]}}",
+							"Basınc": {{basinc[2]}}
+						},
+						{
+							"category": "{{gunPress[3]}}",
+							"Basınc": {{basinc[3]}}
+						},
+						{
+							"category": "{{gunPress[4]}}",
+							"Basınc": {{basinc[4]}}
+						}
+					]
+				}
+			);
+		</script>
+<script type="text/javascript">
+			AmCharts.makeChart("chartHum",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"colors":[
+						"#145e0d"
+					],
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": "Saat [[category]] 'deki Nem :[[value]] %",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "Nem",
+							"valueField": "Nem"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"id": "ValueAxis-1",
+							"title": "Yüzde( %)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Son 5 saatin nem değerleri"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "{{gunNem[0]}}",
+							"Nem": {{nem[0]}}
+						},
+						{
+							"category": "{{gunNem[1]}}",
+							"Nem": {{nem[1]}}
+						},
+						{
+							"category": "{{gunNem[2]}}",
+							"Nem": {{nem[2]}}
+						},
+						{
+							"category": "{{gunNem[3]}}",
+							"Nem": {{nem[3]}}
+						},
+						{
+							"category": "{{gunNem[4]}}",
+							"Nem": {{nem[4]}}
+						}
+					]
+				}
+			);
+		</script>                    
 </head>
 	<body onLoad="updateClock(); setInterval('updateClock()', 1000 )"; style="background-image:url(static/images/background.jpeg)">
     <div class="divHeader"; style="background-image:url(static/images/logo.png); background-attachment:scroll">
@@ -137,16 +592,14 @@ color:#FFFFFF;
             </div>
         	
     	<h1 align="center" class="MainMenu">Anlık Değerler</h1>
-    	<div style="padding:0px 0px 10px 40px; margin:0px 0px 0px 40px">
-        	<span id="clock" >&nbsp;<br><br></span> 
-    		<span class="Temperature"; id={{idTemp}}>
-					{{temp}}°C
-                    <br>
-                    <br>
-			</span>
-    		<span class="Humidity"; id={{idHum}}>
-					{{hum}} %
-			</span>
-    	</div>
-	</body>
+        	<span id="clock"; style="margin:0px 0px 0px 125px; ">&nbsp;</span>
+					<div>
+                    <div id="gaugeTemp" style="width: 30%; height: 400px; float:left;" ></div>
+					<div id="chartTemp" style="width: 50%; height: 400px; float:right;" ></div>
+					<div id="gaugeHum" style="width: 30%; height: 400px; float:left;" ></div>
+                    <div id="chartHum" style="width: 50%; height: 400px; float:right;" ></div>
+					<div id="gaugePress" style="width: 30%; height: 400px; float:left;" ></div>
+                    <div id="chartPress" style="width: 50%; height: 400px; float:right;" ></div>
+					</div>
+    </body>
 </html>

@@ -2,45 +2,50 @@ from flask import Flask
 from flask import render_template
 import Adafruit_DHT
 import Adafruit_BMP.BMP085 as BMP
-import time,sqlite3
+import time,sqlite3,dateStr
 app = Flask(__name__)
 app.debug = True
 
-timeNow = time.time()
+graphDate = []
+graphHum = []
+graphTemp = []
+graphPress=[]
+hourNow = int(time.strftime("%h"))
 Hum,Temp = Adafruit_DHT.read_retry(11,4)
-oldHum,oldTemp = Hum,Temp
 con = sqlite3.connect("airDB.db")
 cursor = con.cursor()
 def table():
-    cursor.execute("CREATE TABLE IF NOT EXISTS air (year TEXT,mon TEXT,day TEXT,pre INT,hum INT,tem INT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS air (clockTXT TEXT,dateTXT TEXT,pre INT,hum INT,tem INT)")
 table()
-HumId,TempId = "stable","stable"
+def exportListing():
+    global graphDate,graphTemp,graphHum,graphPress
+    graphDate = []
+    graphHum = []
+    graphTemp = []
+    graphPress=[]
+    for i in range(0,5):
+        cursor.execute("SELECT * FROM air")
+        entryAll = cursor.fetchall()
+        if entryAll < 5:
+            print("Lütfen geçmiþ 5 saate ait bilgileri manuel olarak giriniz..")
+            break
+        con.commit()
+        graphDate.append((entryAll[i])[0])
+        graphHum.append((entryAll[i])[3])
+        graphTemp.append((entryAll[i])[4])
+        graphPress.append((entryAll[i])[2])
+exportListing()
 @app.route("/")
 def mws():
-    global timeNow,oldHum,oldTemp,Hum,Temp,HumId,TempId
-    if((time.time()-timeNow)>=600):
-        oldHum,oldTemp = Hum,Temp
-        sensor = BMP180.BMP085()
-        Press = sensor.read_pressure()
-        Hum,Temp = Adafruit_DHT.read_retry(11,4)
-        day = time.strftime("%d")
-        month = time.strftime("%m")
-        year = time.strftime("%y%")
-        cursor.execute("INSERT INTO air (year,mon,day,pre,hum,tem) VALUES (?,?,?,?,?,?)",(year,month,day,Press,Hum,Temp))
-        con.commit()
-        timeNow=time.time()
-    if(oldTemp < Temp):
-        TempId = "up"
-    if(oldTemp > Temp):
-        TempId ="down"
-    if(oldHum < Hum):
-        HumId = "up"
-    if(oldHum > Hum):
-        HumId = "down"
-    if(oldTemp == Temp):
-        TempId = "stable"
-    if(oldHum == Hum):
-        HumId = "stable"
-    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],idHum=HumId,idTemp=TempId)
+    global Hum,Temp,graphHum,graphDate,graphTemp,graphPress,hourNow
+    sensor = BMP180.BMP085()
+    Hum,Temp = Adafruit_DHT.read_retry(11,4)
+    Press = sensor.read_pressure()
+    if(int(time.strftime("%h"))-hourNow >=1):
+        cursor.execute("INSERT INTO air * VALUES (?,?,?,?,?)".format(dateStr.hourStr(),dateStr.export(),Press,Hum,Temp))
+        hourNow = int(time.strftime("%h"))
+        exportListing()
+
+    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Press,sicaklik=graphTemp,nem=graphHum,basinc=graphPress,gunTemp=graphDate,gunHum=graphDate,gunPress=graphDate)
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
