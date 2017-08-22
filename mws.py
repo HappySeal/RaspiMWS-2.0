@@ -10,7 +10,7 @@ graphDate = []
 graphHum = []
 graphTemp = []
 graphPress=[]
-hourNow = int(time.strftime("%h"))
+hourNow = int(time.strftime("%H"))
 Hum,Temp = Adafruit_DHT.read_retry(11,4)
 con = sqlite3.connect("airDB.db")
 cursor = con.cursor()
@@ -41,9 +41,9 @@ def mws():
     sensor = BMP180.BMP085()
     Hum,Temp = Adafruit_DHT.read_retry(11,4)
     Press = sensor.read_pressure()
-    if(int(time.strftime("%h"))-hourNow >=1):
+    if(int(time.strftime("%H"))-hourNow >=1):
         cursor.execute("INSERT INTO air * VALUES (?,?,?,?,?)".format(dateStr.hourStr(),dateStr.export(),Press,Hum,Temp))
-        hourNow = int(time.strftime("%h"))
+        hourNow = int(time.strftime("%H"))
         exportListing()
 
     return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Press,sicaklik=graphTemp,nem=graphHum,basinc=graphPress,gunTemp=graphDate,gunHum=graphDate,gunPress=graphDate)
