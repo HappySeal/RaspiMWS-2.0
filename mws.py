@@ -38,7 +38,7 @@ exportListing()
 @app.route("/")
 def mws():
     global Hum,Temp,graphHum,graphDate,graphTemp,graphPress,hourNow
-    sensor = BMP180.BMP085()
+    sensor = BMP.BMP085()
     Hum,Temp = Adafruit_DHT.read_retry(11,4)
     Press = sensor.read_pressure()
     if(int(time.strftime("%H"))-hourNow >=1):
@@ -46,6 +46,6 @@ def mws():
         hourNow = int(time.strftime("%H"))
         exportListing()
 
-    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Press,sicaklik=graphTemp,nem=graphHum,basinc=graphPress,gunTemp=graphDate,gunHum=graphDate,gunPress=graphDate)
+    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Press,sicaklik=graphTemp,nem=graphHum,basinc=graphPress,gunTemp=graphDate,gunNem=graphDate,gunPress=graphDate)
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
