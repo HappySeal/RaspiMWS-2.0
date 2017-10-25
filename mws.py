@@ -43,6 +43,7 @@ def mws():
     Press = sensor.read_pressure()
     if(int(time.strftime("%H"))-hourNow >=1):
         cursor.execute("INSERT INTO air * VALUES (?,?,?,?,?)".format(dateStr.hourStr(),dateStr.export(),Press,Hum,Temp))
+		con.commit()
         hourNow = int(time.strftime("%H"))
         exportListing()
 
