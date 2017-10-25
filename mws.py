@@ -49,4 +49,4 @@ def mws():
 
     return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Press,sicaklik=graphTemp,nem=graphHum,basinc=graphPress,gunTemp=graphDate,gunNem=graphDate,gunPress=graphDate)
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=7777)
