@@ -18,7 +18,7 @@ def table():
     cursor.execute("CREATE TABLE IF NOT EXISTS air (clockTXT TEXT,dateTXT TEXT,pre INT,hum INT,tem INT)")
 table()
 def exportListing():
-    global graphDate,graphTemp,graphHum,graphPress
+    global graphDate,graphTemp,graphHum,graphPress,con,cursor
     graphDate = []
     graphHum = []
     graphTemp = []
@@ -37,7 +37,7 @@ def exportListing():
 exportListing()
 @app.route("/")
 def mws():
-    global Hum,Temp,graphHum,graphDate,graphTemp,graphPress,hourNow
+    global Hum,Temp,graphHum,graphDate,graphTemp,graphPress,hourNow,con,cursor
     sensor = BMP.BMP085()
     Hum,Temp = Adafruit_DHT.read_retry(11,4)
     Press = sensor.read_pressure()
