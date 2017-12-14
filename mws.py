@@ -38,41 +38,46 @@ def cikisListesi():
     grafikNem = []
     grafikSicaklik = []
     grafikBasinc=[]
-    for i in range(0,5):
-        cursor.execute("SELECT * FROM hava")
-        entryAll = cursor.fetchall()
-        if entryAll < 5:
-            print("Lutfen gecmis 5 saate ait bilgileri manuel olarak giriniz..")
-            break
-        con.commit()
+    cursor.execute("SELECT * FROM hava")
+    entryAll = cursor.fetchall()
+    con.commit()
+    for i in range(0,len(entryAll)):
         grafikTarih.append((entryAll[i])[0])
         grafikNem.append((entryAll[i])[3])
         grafikSicaklik.append((entryAll[i])[4])
         grafikBasinc.append((entryAll[i])[2])
 ##Grafiğimizde yer alacak değerleri veri tabanından çekerek değişkenlerimize ekliyoruz
 cikisListesi()
+#print(grafikTarih,"\n",grafikNem,"\n",grafikSicaklik,"\n",grafikBasinc,"\n")
 @app.route("/")
 ##Bu noktadan sonraki fonksiyonlarımız templates içinde bulunan aynı adlı html dosyamıza etki edeceldir
 def mws():
     global Nem,Sicaklik,grafikNem,grafikTarih,grafikSicaklik,grafikBasinc,con,cursor,Sondk
+    tahmin=""
     sensor = BMP.BMP085()
     ##BMP180 basınç sensörü kuruyoruz
     Nem,Sicaklik = Adafruit_DHT.read_retry(11,4)
     ##DHT11 sensöründen gelen verileri okuyoruz
-    Press = sensor.read_pressure()
+    Basinc = int(sensor.read_pressure()/100)
     ##BMP 180 sensöründen gelen verileri okuyoruz
-    if(dakika()-Sondk >=10):
+    if(dakika()-Sondk >=1):
         ##Eğer son kayıtdan 10 dk geçmiş ise
-        cursor.execute("INSERT INTO hava * VALUES (?,?,?,?,?)".format(dateStr.hourStr(),dateStr.export(),Press,Nem,Sicaklik))
+        cursor.execute("INSERT INTO hava (saatTXT TEXT,tarihTXT TEXT,basinc INT,nem INT,sicaklik INT) VALUES (?,?,?,?,?)".format(dateStr.hourStr(),dateStr.export(),Basinc,Nem,Sicaklik))
         con.commit()
         ##Verileri Veri tabanına kaydetiyoruz
         Sondk = dakika()
         ##Kaydedildiği dakikayı Son kayıt olarak kaydediyoruz
         cikisListesi()
         ##Grafiğimizdeki değerlerimizi güncelliyoruz
-
-
-    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Press,sicaklik=grafikSicaklik,nem=grafikNem,basinc=grafikBasinc,gunTemp=grafikTarih,gunNem=graphDate,gunPress=graphDate)
+    if(Nem>=75 and Sicaklik<=20 and Basinc<=1000):
+        tahmin =("Bu günkü değerlere bakılır ise, Nem %"+Nem+" seviyelerinde seyrediyor ve sıcaklık "+Sicaklik+" yağmur yağma ihtimali var. ")
+    elif(Nem<=30 and Sicaklik>=25 and Basinc>=1013):
+        tahmin = ("Bu günkü değerlere bakılır ise,Nem %"+Nem+" seviyelerinde seyrediyor ve sıcaklık "+Sicaklik+" kuru sıcaklar etkili dikkatli olun.")
+    elif(Nem >=70 and Sicaklik>=25 and Basinc>=1013):
+        tahmin = ("Bu günkü değerlere bakılır ise,Nem %"+Nem+" seviyelerinde seyrediyor ve sıcaklık "+Sicaklik+" bunaltıcı sıcaklar etkili dikkatli olun.")
+    else:
+        tahmin = ("Bu günkü değerlere bakılır ise,Nem %"+Nem+" seviyelerinde seyrediyor ve sıcaklık "+Sicaklik+" hava sıcaklıkları normal seviyelerde seyrediyor.")
+    return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Basinc,sicaklik=grafikSicaklik,nem=grafikNem,basinc=grafikBasinc,gunTemp=grafikTarih,gunNem=grafikTarih,gunPress=grafikTarih,tahmin=tahmin)
     ##HTML dosyamızda bulunan eksik yerleri yukarıda belirtildiği gibi dolduruyoruz
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=7777)
