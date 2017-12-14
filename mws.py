@@ -5,7 +5,7 @@ from flask import render_template
 ##Templates de web de gorunecek olan html kodumuz , Static dosyamiz da web sayfamizda kullanacagimiz fotograflar ve grafik olusturmak icin kullanacagimiz javascript kutuphanelerimiz
 import Adafruit_DHT
 import Adafruit_BMP.BMP085 as BMP
-##DTH11 ve BMP180 sensörlerimizin kutuphanelerini ekliyoruz
+##DTH11 ve BMP180 sensorlerimizin kutuphanelerini ekliyoruz
 import time,sqlite3,dateStr
 ## Zamani bulmak icin kullanacagimiz time , veri tabani icin kullandigimiz sqlite3 , bulundugumuz tarihi bir yaziya donusturecek kendi yaptigim dateStr modullerini ekledik
 app = Flask(__name__)
