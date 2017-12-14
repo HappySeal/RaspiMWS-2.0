@@ -70,13 +70,13 @@ def mws():
         cikisListesi()
         ##Grafigimizdeki degerlerimizi guncelliyoruz
     if(Nem>=75 and Sicaklik<=20 and Basinc<=1000):
-        tahmin =("Bu gunku degerlere bakilir ise, Nem %"+Nem+" seviyelerinde seyrediyor ve sicaklik "+Sicaklik+" yagmur yagma ihtimali var. ")
+        tahmin =("Bu gunku degerlere bakilir ise, Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" yagmur yagma ihtimali var. ")
     elif(Nem<=30 and Sicaklik>=25 and Basinc>=1013):
-        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+Nem+" seviyelerinde seyrediyor ve sicaklik "+Sicaklik+" kuru sicaklar etkili dikkatli olun.")
+        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" kuru sicaklar etkili dikkatli olun.")
     elif(Nem >=70 and Sicaklik>=25 and Basinc>=1013):
-        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+Nem+" seviyelerinde seyrediyor ve sicaklik "+Sicaklik+" bunaltici sicaklar etkili dikkatli olun.")
+        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" bunaltici sicaklar etkili dikkatli olun.")
     else:
-        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+Nem+" seviyelerinde seyrediyor ve sicaklik "+Sicaklik+" hava sicakliklari normal seviyelerde seyrediyor.")
+        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" hava sicakliklari normal seviyelerde seyrediyor.")
     return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Basinc,sicaklik=grafikSicaklik,nem=grafikNem,basinc=grafikBasinc,gunTemp=grafikTarih,gunNem=grafikTarih,gunPress=grafikTarih,tahmin=tahmin)
     ##HTML dosyamizda bulunan eksik yerleri yukarida belirtildigi gibi dolduruyoruz
 if __name__ == "__main__":
