@@ -33,7 +33,14 @@ def table():
 table()
 ## Ve tablomuzu olusturuyoruz
 def cikisListesi():
-    global grafikTarih,grafikSicaklik,grafikNem,grafikBasinc,con,cursor
+    global grafikTarih,grafikSicaklik,grafikNem,grafikBasinc,con,cursor,Sondk
+    if(dakika()-Sondk >=10):
+        ##Eger son kayitdan 10 dk gecmis ise
+        cursor.execute("INSERT INTO hava (saatTXT,tarihTXT,basinc,nem,sicaklik) VALUES (?,?,?,?,?)",((dateStr.hourStr()),(dateStr.export()),Basinc,Nem,Sicaklik))
+        con.commit()
+        ##Verileri Veri tabanina kaydetiyoruz
+        Sondk=dakika()
+        ##Kaydedildigi dakikayi Son kayit olarak kaydediyoruz
     grafikTarih = []
     grafikNem = []
     grafikSicaklik = []
@@ -60,15 +67,8 @@ def mws():
     ##DHT11 sensorunden gelen verileri okuyoruz
     Basinc = int(sensor.read_pressure()/100)
     ##BMP 180 sensorunden gelen verileri okuyoruz
-    if(dakika()-Sondk >=10):
-        ##Eger son kayitdan 10 dk gecmis ise
-        cursor.execute("INSERT INTO hava (saatTXT,tarihTXT,basinc,nem,sicaklik) VALUES (?,?,?,?,?)",((dateStr.hourStr()),(dateStr.export()),Basinc,Nem,Sicaklik))
-        con.commit()
-        ##Verileri Veri tabanina kaydetiyoruz
-        Sondk = dakika()
-        ##Kaydedildigi dakikayi Son kayit olarak kaydediyoruz
-        cikisListesi()
-        ##Grafigimizdeki degerlerimizi guncelliyoruz
+    cikisListesi()
+    ##Grafigimizdeki degerlerimizi guncelliyoruz
     if(Nem>=75 and Sicaklik<=20 and Basinc<=1000):
         tahmin =("Bu gunku degerlere bakilir ise, Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece yagmur yagma ihtimali var. ")
     elif(Nem<=30 and Sicaklik>=25 and Basinc>=1013):
@@ -82,5 +82,6 @@ def mws():
     return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Basinc,sicaklik=grafikSicaklik,nem=grafikNem,basinc=grafikBasinc,gunTemp=grafikTarih,gunNem=grafikTarih,gunPress=grafikTarih,tahmin=tahmin)
     ##HTML dosyamizda bulunan eksik yerleri yukarida belirtildigi gibi dolduruyoruz
 if __name__ == "__main__":
+    cikisListesi()
     app.run(host='0.0.0.0', port=7777)
     ##Uygulamamizi yerel ag uzerinden 7777 port ile yayimliyoruz
