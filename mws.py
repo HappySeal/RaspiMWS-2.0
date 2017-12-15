@@ -6,8 +6,8 @@ from flask import render_template
 import Adafruit_DHT
 import Adafruit_BMP.BMP085 as BMP
 ##DTH11 ve BMP180 sensorlerimizin kutuphanelerini ekliyoruz
-import time,sqlite3,dateStr
-## Zamani bulmak icin kullanacagimiz time , veri tabani icin kullandigimiz sqlite3 , bulundugumuz tarihi bir yaziya donusturecek kendi yaptigim dateStr modullerini ekledik
+import time,sqlite3
+## Zamani bulmak icin kullanacagimiz time , veri tabani icin kullandigimiz sqlite3 modullerini ekledik
 app = Flask(__name__)
 app.debug = True
 #Flaskdan uygulamamizi kuruyoruz
@@ -16,6 +16,10 @@ grafikNem = []
 grafikSicaklik = []
 grafikBasinc=[]
 #Grafige dokecegimiz Tarih , Nem , Sicaklik ve Basinc listelerini tanimladik
+def export(dayBefore = 0):
+	return str(int(time.strftime("%d"))-dayBefore)+"/"+time.strftime("%m")+"/"+time.strftime("%Y")
+def hourStr():
+	return str(time.strftime("%H")+":"+time.strftime("%M"))
 def dakika():
     return int(time.strftime("%H"))*60+(int(time.strftime("%M")))
 ## Anlik dakika degerini tanimlayacak fonksiyonu tanimliyoruz
@@ -36,7 +40,7 @@ def cikisListesi():
     global grafikTarih,grafikSicaklik,grafikNem,grafikBasinc,con,cursor,Sondk,Nem,Sicaklik,Basinc
     if(dakika()-Sondk >=10):
         ##Eger son kayitdan 10 dk gecmis ise
-        cursor.execute("INSERT INTO hava (saatTXT,tarihTXT,basinc,nem,sicaklik) VALUES (?,?,?,?,?)",((dateStr.hourStr()),(dateStr.export()),Basinc,Nem,Sicaklik))
+        cursor.execute("INSERT INTO hava (saatTXT,tarihTXT,basinc,nem,sicaklik) VALUES (?,?,?,?,?)",((hourStr()),(export()),Basinc,Nem,Sicaklik))
         con.commit()
         ##Verileri Veri tabanina kaydetiyoruz
         Sondk=dakika()
