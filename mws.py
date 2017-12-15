@@ -70,15 +70,15 @@ def mws():
     cikisListesi()
     ##Grafigimizdeki degerlerimizi guncelliyoruz
     if(Nem>=75 and Sicaklik<=20 and Basinc<=1000):
-        tahmin =("Bu gunku degerlere bakilir ise, Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece yagmur yagma ihtimali var. ")
+        tahmin =("Bugunku degerlere bakilir ise, nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece, yagmur yagma ihtimali var. ")
     elif(Nem<=30 and Sicaklik>=25 and Basinc>=1013):
-        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece kuru sicaklar etkili dikkatli olun.")
+        tahmin = ("Bugunku degerlere bakilir ise, nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece, kuru sicaklar etkili dikkatli olun.")
     elif(Nem >=70 and Sicaklik>=25 and Basinc>=1013):
-        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece bunaltici sicaklar etkili dikkatli olun.")
+        tahmin = ("Bugunku degerlere bakilir ise, nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece, bunaltici sicaklar etkili dikkatli olun.")
     elif(Nem>=50 and Sicaklik <=0 and Basinc<=1013):
-        tahmin = "Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece kar ihtimali var dikkatli olun."
+        tahmin = "Bugunku degerlere bakilir ise, nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece, kar ihtimali var dikkatli olun."
     else:
-        tahmin = ("Bu gunku degerlere bakilir ise,Nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" hava sicakliklari normal seviyelerde seyrediyor.")
+        tahmin = ("Bugunku degerlere bakilir ise, nem %"+str(Nem)+" seviyelerinde seyrediyor ve sicaklik "+str(Sicaklik)+" derece, hava sicakliklari normal seviyelerde seyrediyor.")
     return render_template('mws.html', temp=(Adafruit_DHT.read_retry(11,4))[1],hum=(Adafruit_DHT.read_retry(11,4))[0],press=Basinc,sicaklik=grafikSicaklik,nem=grafikNem,basinc=grafikBasinc,gunTemp=grafikTarih,gunNem=grafikTarih,gunPress=grafikTarih,tahmin=tahmin)
     ##HTML dosyamizda bulunan eksik yerleri yukarida belirtildigi gibi dolduruyoruz
 if __name__ == "__main__":
