@@ -33,7 +33,7 @@ def table():
 table()
 ## Ve tablomuzu olusturuyoruz
 def cikisListesi():
-    global grafikTarih,grafikSicaklik,grafikNem,grafikBasinc,con,cursor,Sondk
+    global grafikTarih,grafikSicaklik,grafikNem,grafikBasinc,con,cursor,Sondk,Nem,Sicaklik,Basinc
     if(dakika()-Sondk >=10):
         ##Eger son kayitdan 10 dk gecmis ise
         cursor.execute("INSERT INTO hava (saatTXT,tarihTXT,basinc,nem,sicaklik) VALUES (?,?,?,?,?)",((dateStr.hourStr()),(dateStr.export()),Basinc,Nem,Sicaklik))
