@@ -28,7 +28,7 @@ con = sqlite3.connect("havaVT.db",check_same_thread=False)
 cursor = con.cursor()
 ##Degisiklik yapmamizi saglayacak imlec(cursor) degiskenimizi tanimliyoruz
 def table():
-    cursor.execute("CREATE TABLE iF NOT EXiSTS hava (saatTXT TEXT,tarihTXT TEXT,basinc iNT,nem iNT,sicaklik iNT)")
+    cursor.execute("CREATE TABLE IF NOT EXiSTS hava (saatTXT TEXT,tarihTXT TEXT,basinc INT,nem INT,sicaklik INT)")
 ##Tablomuzu ve bunun bolumlerini tanimliyoruz.
 table()
 ## Ve tablomuzu olusturuyoruz
@@ -41,11 +41,11 @@ def cikisListesi():
     cursor.execute("SELECT * FROM hava")
     entryAll = cursor.fetchall()
     con.commit()
-    for i in range(0,len(entryAll)):
-        grafikTarih.append((entryAll[i])[0])
-        grafikNem.append((entryAll[i])[3])
-        grafikSicaklik.append((entryAll[i])[4])
-        grafikBasinc.append((entryAll[i])[2])
+    for i in range(0,15):
+        grafikTarih.append((entryAll[len(entryAll)-(1+i)])[0])
+        grafikNem.append((entryAll[len(entryAll)-(1+i)])[3])
+        grafikSicaklik.append((entryAll[len(entryAll)-(1+i)])[4])
+        grafikBasinc.append((entryAll[len(entryAll)-(1+i)])[2])
 ##Grafigimizde yer alacak degerleri veri tabanindan cekerek degiskenlerimize ekliyoruz
 cikisListesi()
 #print(grafikTarih,"\n",grafikNem,"\n",grafikSicaklik,"\n",grafikBasinc,"\n")
@@ -60,9 +60,9 @@ def mws():
     ##DHT11 sensorunden gelen verileri okuyoruz
     Basinc = int(sensor.read_pressure()/100)
     ##BMP 180 sensorunden gelen verileri okuyoruz
-    if(dakika()-Sondk >=1):
+    if(dakika()-Sondk >=10):
         ##Eger son kayitdan 10 dk gecmis ise
-        cursor.execute("iNSERT iNTO hava (saatTXT TEXT,tarihTXT TEXT,basinc iNT,nem iNT,sicaklik iNT) VALUES (?,?,?,?,?)".format(dateStr.hourStr(),dateStr.export(),Basinc,Nem,Sicaklik))
+        cursor.execute("INSERT INTO hava (saatTXT,tarihTXT,basinc,nem,sicaklik) VALUES (?,?,?,?,?)",((dateStr.hourStr()),(dateStr.export()),Basinc,Nem,Sicaklik))
         con.commit()
         ##Verileri Veri tabanina kaydetiyoruz
         Sondk = dakika()
