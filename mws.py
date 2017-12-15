@@ -17,7 +17,7 @@ grafikSicaklik = []
 grafikBasinc=[]
 #Grafige dokecegimiz Tarih , Nem , Sicaklik ve Basinc listelerini tanimladik
 def dakika():
-    return int(time.strftime("%H"))+60*(int(time.strftime("%M")))
+    return int(time.strftime("%H"))*60+(int(time.strftime("%M")))
 ## Anlik dakika degerini tanimlayacak fonksiyonu tanimliyoruz
 Sondk=dakika()
 ##Ve 1 kere kayit aliyoruz
